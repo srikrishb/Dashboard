@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html ng-app="">
+<head>
+	<meta charset="UTF-8">
+	<title>Kiosk Dashboard</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+	
+	<!-- Code for loading bootstrap -->
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	
+	<!-- Code to active modal -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<!-- Code for fa-plus-square -->
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	
+	<!-- Code for angular -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js"> </script>
+	
+	<style>
+	body{
+		font-family: "Trebuchet MS", sans-serif;
+		margin: 50px;
+	}
+	
+	</style>
+</head>
+
+<body ng-controller="displayContent" >
+
+<div class="ui-widget">
+	<img src="images/McD.png" alt="" style="float:left;"> <h1>Welcome to Kiosk!</h1>
+	<p>This page helps add widgets. Please click on the '+' button to add a widget.
+</div>
+<br> <br> <br> <br> <br>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+	   <h1>  
+			<!-- Trigger the modal with a button -->
+			<i class="fa fa-plus-square pull-right" data-toggle="modal" data-target="#myModal" ></i>
+		 </h1>
+		 <div class="row">
+        <div class="col-xs-12">
+						<div class="row dashboard ui-sortable"></div>
+							<div class="widget col-xs-12 col-md-4" ng-repeat='item in items'>
+								<div class="panel panel-default">			
+									<div class="panel-heading ui-sortable-handle">
+											Widget- {{item}}
+									<button class="fa fa-trash fa-lg pull-right" ng-click='removeItem'></button>
+								</div>
+								<div class="panel-body" style="display: block;">
+										{{item}}
+								</div>
+        </div>
+    </div>
+	</div>
+</div>
+
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+       <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>  
+          <h4 class="modal-title">Widget Search</h4>
+        </div>
+        <div class="modal-body">
+        <ul>
+					<button ng-click='addItem()' id="Dynamo-1" >  Dynamo -1</button> <br>
+					<button ng-click='addItem()' id="Dynamo-2" > Dynamo -2</button> <br>
+					<button ng-click='addItem()' id="Elasticsearch-1" > Elasticsearch -1</button> <br>
+					<button ng-click='addItem()' id="Elasticsearch-2" > Elasticsearch -2</button> <br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+
+
+
+
+<script>
+ 
+function displayContent($scope){
+
+ $scope.items = [];
+ $scope.index = 0
+ 
+ $scope.addItem = function(){
+	var elementId = document.activeElement.id
+	//$scope.items.splice($scope.index,0, document.getElementById(elementId).innerHTML);
+	$scope.items.push(document.getElementById(elementId).innerHTML)
+  $scope.index = $scope.index + 1;
+ };
+
+ $scope.removeItem = function(){
+	var elementId = document.activeElement.id
+	//$scope.items.splice($scope.index,0, document.getElementById(elementId).innerHTML);
+	$scope.items.splice(index, 1, document.getElementById(elementId).innerHTML)
+  $scope.index = $scope.index + 1;
+ };
+
+}
+</script>
+
+</body>
+</html>
