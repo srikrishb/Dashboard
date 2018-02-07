@@ -5,7 +5,7 @@
 	<title>Kiosk Dashboard</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
-	
+  
 	<!-- Code for loading bootstrap -->
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	
@@ -24,8 +24,8 @@
 		font-family: "Trebuchet MS", sans-serif;
 		margin: 50px;
 	}
-	
 	</style>
+
 </head>
 
 <body ng-controller="displayContent" >
@@ -37,81 +37,125 @@
 <br> <br> <br> <br> <br>
 
 <div class="container">
-  <div class="row">
-    <div class="col-xs-12">
-	   <h1>  
+ 	   <h1>  
 			<!-- Trigger the modal with a button -->
 			<i class="fa fa-plus-square pull-right" data-toggle="modal" data-target="#myModal" ></i>
 		 </h1>
-		 <div class="row">
-        <div class="col-xs-12">
-						<div class="row dashboard ui-sortable"></div>
-							<div class="widget col-xs-12 col-md-4" ng-repeat='item in items'>
-								<div class="panel panel-default">			
-									<div class="panel-heading ui-sortable-handle">
-											Widget- {{item}}
-									<button class="fa fa-trash fa-lg pull-right" ng-click='removeItem'></button>
-								</div>
-								<div class="panel-body" style="display: block;">
-										{{item}}
-								</div>
-        </div>
-    </div>
+		 <br> <br> <br>
+		 <div id="myFirstWidget"></div>
+</div>
+  <!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+	<div class="modal-dialog">
+			<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>  
+				<h4 class="modal-title">Widget Search</h4>
+			</div>
+			<div class="modal-body">
+			<ul>
+				<button ng-click='addItem()' id="Dynamo-1" > Dynamo -1</button> <br>
+				<button ng-click='addItem()' id="Dynamo-2" > Dynamo -2</button> <br>
+				<button ng-click='addItem()' id="Elasticsearch-1" > Elasticsearch -1</button> <br>
+				<button ng-click='addItem()' id="Elasticsearch-2" > Elasticsearch -2</button> <br>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
 	</div>
 </div>
 
-  </div>
-  <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-       <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>  
-          <h4 class="modal-title">Widget Search</h4>
-        </div>
-        <div class="modal-body">
-        <ul>
-					<button ng-click='addItem()' id="Dynamo-1" >  Dynamo -1</button> <br>
-					<button ng-click='addItem()' id="Dynamo-2" > Dynamo -2</button> <br>
-					<button ng-click='addItem()' id="Elasticsearch-1" > Elasticsearch -1</button> <br>
-					<button ng-click='addItem()' id="Elasticsearch-2" > Elasticsearch -2</button> <br>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
-  
-</div>
-
-
-
-
 <script>
- 
+
+var wContainer = document.createElement("Div");
+wContainer.className = "container";
+
+/* var wRow = document.createElement("Div");
+wRow.className = "row";
+
+var wCol1 = document.createElement("Div");
+wCol1.className = "col-xs-12";*/
+
+var wRow1 = document.createElement("Div");
+wRow1.className = "row"; 
+
+var widgetContainer = document.createElement("Div");
+widgetContainer.className = "col-xs-12";
+
+var widgetContainerRow = document.createElement("Div");
+widgetContainerRow.className = "row dashboard ui-sortable";
+
+
 function displayContent($scope){
 
- $scope.items = [];
- $scope.index = 0
- 
- $scope.addItem = function(){
-	var elementId = document.activeElement.id
-	//$scope.items.splice($scope.index,0, document.getElementById(elementId).innerHTML);
-	$scope.items.push(document.getElementById(elementId).innerHTML)
-  $scope.index = $scope.index + 1;
- };
+$scope.items = [];
+$scope.index = 0;
 
- $scope.removeItem = function(){
-	var elementId = document.activeElement.id
-	//$scope.items.splice($scope.index,0, document.getElementById(elementId).innerHTML);
-	$scope.items.splice(index, 1, document.getElementById(elementId).innerHTML)
-  $scope.index = $scope.index + 1;
- };
+wRow1.appendChild(widgetContainer);
+/* wCol1.appendChild(wRow1);
+wRow.appendChild(wCol1); */
+wContainer.appendChild(wRow1);
+document.getElementById("myFirstWidget").appendChild(wContainer);
+
+var backupDOM;
+
+$scope.addItem = function() {
+
+var elementId = document.activeElement.id;
+
+// widgetHeader
+var widgetHeader = document.createElement("Div");
+widgetHeader.innerHTML=document.getElementById(elementId).innerHTML;
+widgetHeader.setAttribute("id",$scope.index)
+widgetHeader.className="panel-heading ui-sortable-handle";
+
+// widgetBody
+var widgetBody = document.createElement("Div");
+widgetBody.innerHTML = "Information about" + document.getElementById(elementId).innerHTML;
+widgetBody.className="panel-body";
+widgetBody.style="display: block;";
+
+var widget = document.createElement("Div");
+widget.className="panel panel-default";
+
+
+var widgetClose = document.createElement("Div");
+widgetClose.className="panel-additional panel-notconfigured";
+widgetClose.style="display:none;";
+
+var widgetInnerClose = document.createElement("button");
+widgetInnerClose.className="fa fa-trash fa-lg pull-right";
+widgetInnerClose.setAttribute("onclick","removeFunction()");
+
+widgetHeader.appendChild(widgetInnerClose);
+widget.appendChild(widgetHeader);
+widget.appendChild(widgetBody);
+
+var widgetPanel = document.createElement("Div");
+widgetPanel.className = "widget col-xs-12 col-md-4";
+widgetPanel.style="postion: relative;"
+
+widgetPanel.appendChild(widget);
+widgetContainerRow.appendChild(widgetPanel);
+widgetContainer.appendChild(widgetContainerRow);
+backupDOM = document.getElementById("myFirstWidget").cloneNode(true);
+//console.log(backupDOM["innerHTML"]);
+//widget.appendChild(widgetBody);
+
+$scope.index = $scope.index + 1;
+}
+
 
 }
+
+function removeFunction() 
+{
+	console.log("In Remove Function");
+	document.activeElement.parentElement.parentElement.remove();
+}
+
 </script>
 
 </body>
