@@ -87,6 +87,11 @@ widgetContainer.className = "col-xs-12";
 var widgetContainerRow = document.createElement("Div");
 widgetContainerRow.className = "row dashboard ui-sortable";
 
+function removeItem() {
+	console.log("In Remove Function");
+	document.activeElement.parentElement.parentElement.remove();
+	$scope.index = $scope.index - 1;
+};
 
 function displayContent($scope){
 
@@ -127,7 +132,7 @@ widgetClose.style="display:none;";
 
 var widgetInnerClose = document.createElement("button");
 widgetInnerClose.className="fa fa-trash fa-lg pull-right";
-widgetInnerClose.setAttribute("onclick","removeFunction()");
+widgetInnerClose.setAttribute("onclick","removeItem()");
 
 widgetHeader.appendChild(widgetInnerClose);
 widget.appendChild(widgetHeader);
@@ -145,15 +150,8 @@ backupDOM = document.getElementById("myFirstWidget").cloneNode(true);
 //widget.appendChild(widgetBody);
 
 $scope.index = $scope.index + 1;
-}
+};
 
-
-}
-
-function removeFunction() 
-{
-	console.log("In Remove Function");
-	document.activeElement.parentElement.parentElement.remove();
 }
 
 </script>
